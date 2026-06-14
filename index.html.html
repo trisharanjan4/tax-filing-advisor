@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>India Tax Planning Advisor · FY 2025-26</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-secondary: #f7f7f5;
+    --bg-info: #e6f1fb;
+    --text: #1a1a18;
+    --text-secondary: #6b6b68;
+    --text-tertiary: #9e9e9a;
+    --text-info: #185fa5;
+    --border: rgba(0,0,0,0.12);
+    --border-md: rgba(0,0,0,0.22);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --accent: #185fa5;
+    --accent-light: #e6f1fb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg-secondary: #252523;
+      --bg-info: #0c2d4a;
+      --text: #f0ede8;
+      --text-secondary: #a8a8a4;
+      --text-tertiary: #6b6b68;
+      --text-info: #85b7eb;
+      --border: rgba(255,255,255,0.1);
+      --border-md: rgba(255,255,255,0.2);
+      --accent: #85b7eb;
+      --accent-light: #0c2d4a;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-secondary);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+  }
+
+  /* API key setup screen */
+  #setup-screen {
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .setup-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+  }
+
+  .setup-logo {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+  }
+  .setup-logo i { font-size: 22px; color: var(--accent); }
+
+  .setup-card h1 { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  .setup-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; margin-top: 20px; }
+  .field label { font-size: 13px; font-weight: 500; }
+  .field input {
+    padding: 10px 12px;
+    border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    font-family: monospace;
+    letter-spacing: 0.03em;
+  }
+  .field input:focus { outline: none; border-color: var(--accent); }
+  .field .hint { font-size: 12px; color: var(--text-tertiary); }
+  .field .hint a { color: var(--accent); text-decoration: none; }
+
+  .btn-primary {
+    margin-top: 8px;
+    padding: 11px 20px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .info-box {
+    background: var(--accent-light);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+  .info-box strong { color: var(--text); }
+
+  /* Chat screen */
+  #chat-screen { display: none; width: 100%; max-width: 720px; flex-direction: column; gap: 0; }
+
+  #chat-header {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-bottom: none;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .chat-logo {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .chat-logo i { font-size: 18px; color: var(--accent); }
+
+  .chat-header-text h2 { font-size: 15px; font-weight: 600; }
+  .chat-header-text p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  .header-actions { margin-left: auto; display: flex; gap: 8px; }
+  .icon-btn {
+    width: 32px; height: 32px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .icon-btn:hover { background: var(--bg-secondary); color: var(--text); }
+
+  #messages-container {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-top: none;
+    border-bottom: none;
+    height: 480px;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    scroll-behavior: smooth;
+  }
+
+  .msg { display: flex; flex-direction: column; gap: 4px; max-width: 82%; }
+  .msg.user { align-self: flex-end; }
+  .msg.assistant { align-self: flex-start; }
+
+  .msg-label { font-size: 11px; color: var(--text-tertiary); padding: 0 4px; }
+  .msg.user .msg-label { text-align: right; }
+
+  .bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .user .bubble {
+    background: var(--accent-light);
+    color: var(--text);
+    border-bottom-right-radius: 4px;
+    border: 0.5px solid var(--border);
+  }
+  .assistant .bubble {
+    background: var(--bg-secondary);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+    border: 0.5px solid var(--border);
+  }
+  .bubble strong { font-weight: 600; }
+  .bubble table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  .bubble table td, .bubble table th {
+    padding: 5px 8px;
+    border: 0.5px solid var(--border-md);
+    text-align: left;
+  }
+  .bubble table th { background: var(--bg-secondary); font-weight: 500; }
+
+  #typing-indicator {
+    display: none;
+    align-self: flex-start;
+  }
+  #typing-indicator .bubble { display: flex; gap: 5px; align-items: center; padding: 13px 16px; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--text-secondary);
+    animation: blink 1.3s infinite;
+  }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink {
+    0%,80%,100% { opacity: 0.25; transform: scale(0.85); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  #input-area {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  #user-input {
+    flex: 1;
+    resize: none;
+    min-height: 40px;
+    max-height: 120px;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 9px 13px;
+    border: 0.5px solid var(--border-md);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    overflow-y: auto;
+  }
+  #user-input:focus { outline: none; border-color: var(--accent); }
+  #user-input::placeholder { color: var(--text-tertiary); }
+
+  #send-btn {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  #send-btn:hover { opacity: 0.88; }
+  #send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .disclaimer {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .error-msg {
+    font-size: 13px;
+    color: #c0392b;
+    margin-top: 6px;
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 12px 8px; }
+    #messages-container { height: 400px; }
+    .msg { max-width: 92%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SETUP SCREEN -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-logo"><i class="ti ti-receipt-tax"></i></div>
+    <h1>India Tax Planning Advisor</h1>
+    <p>Personalised tax strategy for FY 2025-26. Compare Old vs New regime, optimise deductions, and get a clear action plan — in minutes.</p>
+
+    <div class="field">
+      <label>Your Anthropic API Key</label>
+      <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." autocomplete="off">
+      <span class="hint">
+        Get your key at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a>.
+        Your key stays in your browser — it is never sent anywhere except directly to Anthropic.
+      </span>
+    </div>
+    <p class="error-msg" id="key-error">Invalid key format. Anthropic API keys start with <code>sk-ant-</code>.</p>
+    <button class="btn-primary" onclick="startApp()">Start planning my taxes →</button>
+  </div>
+
+  <div class="info-box">
+    <strong>Who is this for?</strong><br>
+    Salaried employees (private/MNC), retired individuals (including PSU/bank retirees), homemakers with investment income, and high earners above ₹50L. Covers Old vs New regime, senior citizen benefits, FD/capital gains, and family tax planning. Guidance only — not a substitute for a CA.
+  </div>
+</div>
+
+<!-- CHAT SCREEN -->
+<div id="chat-screen">
+  <div id="chat-header">
+    <div class="chat-logo"><i class="ti ti-receipt-tax"></i></div>
+    <div class="chat-header-text">
+      <h2>Tax Planning Advisor</h2>
+      <p>India · FY 2025-26 · Old vs New regime</p>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" title="New session" onclick="resetChat()"><i class="ti ti-refresh"></i></button>
+      <button class="icon-btn" title="Change API key" onclick="changeKey()"><i class="ti ti-key"></i></button>
+    </div>
+  </div>
+
+  <div id="messages-container">
+    <div id="typing-indicator" class="msg assistant">
+      <div class="msg-label">Tax Advisor</div>
+      <div class="bubble">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="input-area">
+    <textarea id="user-input" placeholder="Tell me about your income, investments, or ask anything…" rows="1"></textarea>
+    <button id="send-btn" onclick="sendMessage()" aria-label="Send message">
+      <i class="ti ti-send"></i>
+    </button>
+  </div>
+
+  <p class="disclaimer">Planning guidance only · Not a substitute for a Chartered Accountant · All figures approximate</p>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `You are an expert Indian tax planning advisor specialising in FY 2025-26 (Assessment Year 2026-27). You help individuals from all walks of life minimise their tax liability legally and effectively — salaried employees, retired persons, homemakers, and high earners.
+
+CONVERSATION APPROACH:
+- Start by warmly greeting the user and asking TWO things only: (1) their name or what they'd like to be called, and (2) a brief description of their situation — are they salaried, retired, a homemaker, business owner, or something else?
+- Based on their answer, follow the relevant USER TYPE section below to ask the right follow-up questions.
+- Ask one or two focused questions at a time. Never ask more than 2 questions at once.
+- Once you have enough data, compute tax and give a clear, specific recommendation with ₹ amounts.
+- Keep responses concise and well-structured. Use bullet points for action items.
+
+USER TYPES AND HOW TO HANDLE EACH:
+
+TYPE 1: SALARIED (private/MNC)
+Ask about: gross CTC, basic salary, city (for HRA), rent paid, 80C investments done, health insurance, NPS, home loan, capital gains, FD interest, flexi benefit usage.
+Key angle: Old vs New regime comparison, salary restructuring, NPS employer contribution.
+Standard deduction: Rs 75,000 (new regime), Rs 50,000 (old regime).
+
+TYPE 2: RETIRED / SENIOR CITIZEN
+Definition: Age 60-80 = Senior Citizen. Age 80+ = Super Senior Citizen.
+Ask about: monthly pension amount and source, any other income (FD interest, rental, capital gains), age, whether they own a house, health insurance premium paid, any 80C investments still active.
+
+Special rules for Senior Citizens (old regime):
+- Basic exemption: Rs 3,00,000 (vs Rs 2,50,000 for general)
+- Super Senior Citizens (80+): Rs 5,00,000 basic exemption
+- 80TTB: Interest income deduction up to Rs 50,000/year (FD + savings bank interest combined) — replaces 80TTA
+- 80D: Health insurance up to Rs 50,000 for self (senior); Rs 50,000 for senior citizen parents
+- TDS on FD interest: threshold is Rs 50,000/year (vs Rs 40,000 for non-seniors); submit Form 15H if income below taxable limit to avoid TDS
+- Pension from employer (including PSU/bank like SBI): taxed as salary income, standard deduction of Rs 50,000 (old) or Rs 75,000 (new) applies
+- Commuted pension: Fully exempt for government/PSU employees. For private: 1/3rd exempt if gratuity received, 1/2 exempt otherwise
+- Gratuity from government/PSU (like SBI): Fully exempt u/s 10(10)
+- Leave encashment on retirement from government/PSU: Fully exempt u/s 10(10AA)
+- Family pension (widow/family): Taxed under other sources; deduction = lower of Rs 15,000 or 1/3rd of pension
+- New regime for seniors: Same slabs as general; 87A rebate applies; lose 80TTB, 80D, and all deductions
+- SBI retirees: Gratuity and leave encashment fully exempt; FD corpus common — 80TTB saves up to Rs 15,000 in old regime; check if medical reimbursement is taxable
+
+TYPE 3: HOMEMAKER
+A homemaker typically has no salary but may have investment income in their own name.
+Ask about: any income in their name (FD interest, rental income, capital gains, tuition/freelance), investments in their name, whether spouse is a high earner, whether they file ITR.
+
+Key planning strategies:
+- If income below Rs 2.5L (old) or Rs 4L (new): No tax; but file ITR to claim TDS refunds
+- Clubbing provisions (Section 64): Income from assets gifted by spouse IS CLUBBED back with spouse — warn user against putting FDs in homemaker's name using husband's money
+- Safe alternatives: Income from homemaker's inherited money, stridhan (pre-marriage gifts), or self-earned income (tuition, freelance, rental from self-acquired property) — NOT clubbed
+- TDS refund: Homemaker should file ITR if FD TDS deducted but income is below taxable limit
+- 80C: Homemaker can invest independently in PPF, ELSS, LIC in their own name
+- Capital gains on MF/stocks in their own name: taxed in their hands (unless originally from gifted funds)
+- Suggest getting PAN if they don't have one; open PPF account in their own name
+
+TYPE 4: HIGH EARNER (above Rs 50 LPA)
+Additional considerations on top of salaried rules:
+- Surcharge: 10% on income Rs 50L-Rs 1Cr; 15% on Rs 1Cr-Rs 2Cr; 25% on Rs 2Cr-Rs 5Cr; 37% on Rs 5Cr+ (old regime); new regime caps at 25%
+- At Rs 1Cr+, new regime often wins because of 37% surcharge in old regime
+- Marginal relief available near surcharge thresholds
+- NPS employer contribution 80CCD(2) is very impactful at high incomes — exempt in both regimes
+
+KEY TAX RULES FOR FY 2025-26:
+
+NEW REGIME (default from FY 2023-24):
+Slabs: 0% up to ₹4L | 5% on ₹4–8L | 10% on ₹8–12L | 15% on ₹12–16L | 20% on ₹16–20L | 25% on ₹20–24L | 30% above ₹24L
+Standard deduction: ₹75,000 for salaried employees
+Tax rebate u/s 87A: Full rebate (tax = ₹0) if net taxable income ≤ ₹12L (effectively ₹12.75L after std deduction)
+No deductions: 80C, 80D, HRA, LTA are NOT available
+NPS employer contribution (80CCD(2)): Up to 10% of basic — EXEMPT in new regime too
+Surcharge: 10% on income ₹50L–₹1Cr; 15% on ₹1Cr–₹2Cr; 25% on ₹2Cr–₹5Cr; 37% above ₹5Cr (capped at 25% for new regime)
+Health & Education Cess: 4% on tax + surcharge
+
+OLD REGIME:
+Slabs: 0% up to ₹2.5L | 5% on ₹2.5–5L | 20% on ₹5–10L | 30% above ₹10L
+Standard deduction: ₹50,000
+Tax rebate u/s 87A: Full rebate if taxable income ≤ ₹5L
+Available deductions:
+  - 80C: Up to ₹1.5L (PPF, ELSS, LIC, EPF employee contribution, principal repayment on home loan, tuition fees)
+  - 80CCD(1B): Additional ₹50,000 for NPS self-contribution (over and above 80C)
+  - 80CCD(2): NPS employer contribution up to 10% of basic — fully exempt
+  - 80D: Health insurance premium — ₹25,000 for self+family; ₹50,000 if parents are senior citizens
+  - HRA: Exempt = min of (a) HRA received, (b) 50% of basic [metro] or 40% [non-metro], (c) actual rent paid minus 10% of basic.
+    Metro cities (50% HRA): Mumbai, Delhi, Kolkata, Chennai.
+    Non-metro (40% HRA): Bangalore, Hyderabad, Pune, Ahmedabad, and all other cities.
+    IMPORTANT: Always ask the user which city they live in before computing HRA. Do not assume.
+  - LTA: Leave Travel Allowance — 2 journeys in a 4-year block, economy class domestic travel
+  - Home loan interest: Up to ₹2L under Section 24(b) for self-occupied property
+  - Home loan principal: Part of 80C limit of ₹1.5L
+Surcharge: Same as new regime except 37% surcharge applicable (not capped at 25%)
+Health & Education Cess: 4% on tax + surcharge
+
+CAPITAL GAINS (same treatment regardless of regime):
+- STCG on equity shares / equity mutual funds (held < 12 months): 20% flat (increased from 15% post July 2024 Union Budget)
+- LTCG on equity shares / equity mutual funds (held > 12 months): 12.5% on gains above ₹1.25L per year (exemption limit increased from ₹1L in Budget 2024)
+- Debt mutual funds (purchased after 1 April 2023): Taxed at slab rate regardless of holding period — no indexation benefit
+- Debt mutual funds (purchased before 1 April 2023): LTCG at 20% with indexation if held > 3 years, else slab rate
+- FD interest: Added to total income, taxed at slab rate. TDS deducted at 10% if interest > ₹40,000/year (₹50,000 for senior citizens)
+
+SALARY RESTRUCTURING OPPORTUNITIES:
+- Flexi Benefit Plan: Meal vouchers (Sodexo/Zeta) — up to ₹2,600/month (₹31,200/year) tax-free
+- Gadget/phone/internet allowance: ₹1,500–₹2,500/month if part of CTC, with bills
+- Books and periodicals allowance: ₹1,000–₹2,000/month with receipts
+- Vehicle fuel/driver allowance: Varies by company policy
+- NPS employer top-up: Ask HR to restructure CTC so employer contributes 10% of basic to NPS — saves tax in BOTH regimes under 80CCD(2)
+- HRA: If currently on HRA but living in rented accommodation, ensure you claim it properly in old regime
+
+WHEN TO RECOMMEND OLD REGIME:
+Old regime generally wins when total deductions (80C + 80D + HRA + home loan interest + NPS) exceed approximately:
+- ₹3.75L for those in ₹15–30L income range
+- ₹4.5L for those in ₹30–50L range
+- Run the numbers both ways and show the difference
+
+WHEN COMPUTING TAX, show your working like this:
+---
+OLD REGIME:
+Gross salary: ₹X
+Less: Standard deduction: ₹50,000
+Less: HRA: ₹Y
+Less: 80C: ₹1,50,000
+Less: 80D: ₹Z
+Taxable income: ₹A
+Tax: [slab breakdown]
+Less: Rebate 87A (if applicable)
+Add: 4% cess
+Net tax: ₹B
+
+NEW REGIME:
+Gross salary: ₹X
+Less: Standard deduction: ₹75,000
+Taxable income: ₹C
+Tax: [slab breakdown]
+Less: Rebate 87A (if applicable)
+Add: 4% cess
+Net tax: ₹D
+
+Saving with [regime]: ₹|B-D|
+---
+
+End every final recommendation with 3–5 specific ACTION ITEMS the user should do before 31 March 2026.`;
+
+let conversationHistory = [];
+let apiKey = '';
+let busy = false;
+
+function startApp() {
+  const keyInput = document.getElementById('api-key-input').value.trim();
+  const errEl = document.getElementById('key-error');
+  if (!keyInput.startsWith('sk-ant-')) {
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  apiKey = keyInput;
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('chat-screen').style.display = 'flex';
+  beginConversation();
+}
+
+function changeKey() {
+  document.getElementById('chat-screen').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'flex';
+  document.getElementById('api-key-input').value = '';
+  apiKey = '';
+  conversationHistory = [];
+}
+
+async function beginConversation() {
+  setBusy(true);
+  showTyping(true);
+  try {
+    const reply = await callAPI("Hi, I need help planning my taxes for FY 2025-26 and saving as much as legally possible.");
+    showTyping(false);
+    appendMessage('assistant', reply);
+  } catch(e) {
+    showTyping(false);
+    appendMessage('assistant', 'Hello! I\'m your personal tax planning advisor for FY 2025-26.\n\nI work with salaried employees, retirees, homemakers, and high earners — whoever you are, I\'ll help you pay only what you must and not a rupee more.\n\nTo get started: **what should I call you**, and **what best describes your situation** — salaried, retired, homemaker, or something else?');
+  }
+  setBusy(false);
+}
+
+async function callAPI(userMessage) {
+  conversationHistory.push({ role: 'user', content: userMessage });
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1024,
+      system: SYSTEM_PROMPT,
+      messages: conversationHistory
+    })
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    if (response.status === 401) throw new Error('Invalid API key. Please check your key and try again.');
+    if (response.status === 429) throw new Error('Rate limit reached. Please wait a moment and try again.');
+    throw new Error(err.error?.message || `API error ${response.status}`);
+  }
+
+  const data = await response.json();
+  const reply = data.content?.find(b => b.type === 'text')?.text || 'Sorry, I could not generate a response. Please try again.';
+  conversationHistory.push({ role: 'assistant', content: reply });
+  return reply;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text || busy) return;
+  input.value = '';
+  input.style.height = 'auto';
+  appendMessage('user', text);
+  setBusy(true);
+  showTyping(true);
+  try {
+    const reply = await callAPI(text);
+    showTyping(false);
+    appendMessage('assistant', reply);
+  } catch(e) {
+    showTyping(false);
+    appendMessage('assistant', `⚠️ ${e.message}`);
+  }
+  setBusy(false);
+}
+
+function appendMessage(role, text) {
+  const container = document.getElementById('messages-container');
+  const typing = document.getElementById('typing-indicator');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  const label = document.createElement('div');
+  label.className = 'msg-label';
+  label.textContent = role === 'user' ? 'You' : 'Tax Advisor';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerHTML = formatText(text);
+  div.appendChild(label);
+  div.appendChild(bubble);
+  container.insertBefore(div, typing);
+  container.scrollTop = container.scrollHeight;
+}
+
+function formatText(raw) {
+  let t = raw
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`(.*?)`/g, '<code style="background:var(--bg-secondary);padding:1px 5px;border-radius:4px;font-size:12px">$1</code>')
+    .replace(/\n---\n/g, '<hr style="border:none;border-top:0.5px solid var(--border);margin:10px 0">')
+    .replace(/^### (.+)$/gm, '<p style="font-weight:600;font-size:13px;color:var(--text-secondary);margin:10px 0 4px;text-transform:uppercase;letter-spacing:0.04em">$1</p>')
+    .replace(/^## (.+)$/gm, '<p style="font-weight:600;font-size:15px;margin:10px 0 4px">$1</p>')
+    .replace(/^- (.+)$/gm, '<div style="display:flex;gap:7px;margin:3px 0"><span style="color:var(--accent);flex-shrink:0">•</span><span>$1</span></div>')
+    .replace(/^\d+\. (.+)$/gm, '<div style="margin:3px 0">$&</div>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+  return t;
+}
+
+function showTyping(show) {
+  const el = document.getElementById('typing-indicator');
+  el.style.display = show ? 'flex' : 'none';
+  if (show) document.getElementById('messages-container').scrollTop = 99999;
+}
+
+function setBusy(b) {
+  busy = b;
+  document.getElementById('send-btn').disabled = b;
+}
+
+function resetChat() {
+  conversationHistory = [];
+  const container = document.getElementById('messages-container');
+  const typing = document.getElementById('typing-indicator');
+  while (container.firstChild && container.firstChild !== typing) {
+    container.removeChild(container.firstChild);
+  }
+  showTyping(false);
+  beginConversation();
+}
+
+document.getElementById('api-key-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') startApp();
+});
+
+document.getElementById('user-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+});
+
+document.getElementById('user-input').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+</script>
+</body>
+</html>
